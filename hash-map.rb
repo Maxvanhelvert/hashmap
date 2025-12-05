@@ -28,5 +28,7 @@ class HashMap
 		hased_key = hash_key(key) % @capacity
 		bucket = @hash_table[hased_key]
 		
+		return 'Not available' if bucket[key].nil?
+		
 		bucket[hased_key]
 end
