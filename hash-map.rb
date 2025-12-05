@@ -1,6 +1,10 @@
 class HashMap
-	@load_factor = 0.75
-	@capacity = 16
+
+	def initialize
+		@load_factor = 0.75
+		@capacity = 16
+		@hash_table = Array.new(@capacity)
+	end
 	
 	def hash_key(key)
 		hash_code = 0
@@ -12,11 +16,11 @@ class HashMap
 	end
 	
 	def set(key, value)
-		# key gets hashed,
-		# to put in bucket, check if bucket contains value
-		# if key == key in bucket, replace value,
-		# else, store both key-value pairs in same bucket (by dealing with collision)
+		hased_key = hash_key(key) % @capacity
+		bucket = @hash_table[hased_key]
 		
-		# at some point, check for load_factor
+		bucket = Hash.new if bucket.nil?
+		
+		bucket[key] = value
 	end
 end
