@@ -23,4 +23,10 @@ class HashMap
 		
 		bucket[key] = value
 	end
+	
+	def get(key)
+		hased_key = hash_key(key) % @capacity
+		bucket = @hash_table[hased_key]
+		
+		bucket[hased_key]
 end
