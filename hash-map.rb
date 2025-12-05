@@ -16,6 +16,8 @@ class HashMap
 	end
 	
 	def set(key, value)
+		self.rehash if over_load
+
 		hashed_key = hash_key(key) % @capacity
 		bucket = @hash_table[hashed_key]
 		
@@ -28,7 +30,7 @@ class HashMap
 		
 		return 'Not available' if bucket[key].nil?
 		
-		bucket[hashed_key]
+		bucket[key]
 	end
 	
 	def has?(key)
@@ -56,7 +58,7 @@ class HashMap
 
 	def clear
 		@capacity = 16
-		@hash_table = Array.new(@capacity)
+		@hash_table = Array.new(@capacity) {Hash.new}
 	end
 
 	def keys
@@ -84,5 +86,25 @@ class HashMap
 
 	def hash_table 
 		@hash_table
+	end
+
+	def capacity
+		@capacity
+	end
+
+	def over_load
+		length / @capacity.to_f >= @load_factor
+	end
+
+	def rehash
+		temp = @hash_table.dup
+		@capacity = @capacity * 2
+		@hash_table = Array.new(@capacity) {Hash.new}
+
+		temp.each do |bucket|
+			bucket.each do |key, value|
+				self.set(key, value)
+			end
+		end
 	end
 end
