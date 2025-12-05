@@ -31,4 +31,12 @@ class HashMap
 		return 'Not available' if bucket[key].nil?
 		
 		bucket[hased_key]
+	end
+	
+	def has?(key)
+		hased_key = hash_key(key) % @capacity
+		bucket = @hash_table[hased_key]
+		
+		bucket.include?(key)
+	end
 end
