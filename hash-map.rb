@@ -1,5 +1,5 @@
 class HashMap
-	# add capacity check + increase capacity
+	
 	def initialize
 		@load_factor = 0.75
 		@capacity = 16
@@ -37,7 +37,7 @@ class HashMap
 		hashed_key = hash_key(key) % @capacity
 		bucket = @hash_table[hashed_key]
 		
-		bucket.include?(key)
+		bucket.key?(key)
 	end
 
 	def remove(key)
@@ -63,14 +63,14 @@ class HashMap
 
 	def keys
 		all_keys = []
-		@hash_table.each {|bucket| all_keys << bucket.keys}
+		@hash_table.each {|bucket| all_keys.concat(bucket.keys)}
 
 		all_keys
 	end
 
 	def values
 		all_values = []
-		@hash_table.each {|bucket| all_values << bucket.values}
+		@hash_table.each {|bucket| all_values.concat(bucket.values)}
 
 		all_values
 	end
@@ -101,9 +101,12 @@ class HashMap
 		@capacity = @capacity * 2
 		@hash_table = Array.new(@capacity) {Hash.new}
 
-		temp.each do |bucket|
-			bucket.each do |key, value|
-				self.set(key, value)
+		temp.each do |old_bucket|
+			old_bucket.each do |key, value|
+				hashed_key = hash_key(key) % @capacity
+				bucket = @hash_table[hashed_key]
+		
+				bucket[key] = value
 			end
 		end
 	end
