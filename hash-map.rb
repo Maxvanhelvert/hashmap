@@ -1,5 +1,5 @@
 class HashMap
-
+	# add capacity check + increase capacity
 	def initialize
 		@load_factor = 0.75
 		@capacity = 16
